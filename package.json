@@ -15,6 +15,7 @@
     "type": "git",
     "url": "git+ssh://git@github.com/af12066/4sweep-next.git"
   },
+  "precommit": "npm run lint",
   "author": "Takuma Hashimoto",
   "license": "ISC",
   "bugs": {

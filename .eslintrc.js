@@ -14,4 +14,7 @@ module.exports = {
   plugins: [
     'vue'
   ],
+  rules: {
+    'vue/valid-v-on': 1,
+  },
 };
