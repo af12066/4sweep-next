@@ -1,0 +1,36 @@
+{
+  "name": "y",
+  "version": "0.0.1",
+  "description": "A next generation 4sweep",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/af12066/4sweep-next.git"
+  },
+  "author": "Takuma Hashimoto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/af12066/4sweep-next/issues"
+  },
+  "homepage": "https://github.com/af12066/4sweep-next#readme",
+  "dependencies": {
+    "@nuxtjs/vuetify": "^0.4.2",
+    "nuxt": "^1.4.1"
+  },
+  "devDependencies": {
+    "ajv": "^6.5.2",
+    "babel-eslint": "^8.2.5",
+    "eslint": "^4.19.1",
+    "eslint-config-google": "^0.9.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-vue": "^4.5.0"
+  }
+}
