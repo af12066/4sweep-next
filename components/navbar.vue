@@ -28,8 +28,7 @@
     <v-toolbar
       color="indigo"
       dark
-      fixed
-      app
+      tabs
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>4sweep-next</v-toolbar-title>
@@ -53,7 +52,104 @@
           @click="authenticate"
         >Sign in</v-btn>
       </v-toolbar-items>
+      <v-tabs
+        slot="extension"
+        v-model="tab"
+        color="indigo"
+        align-with-title
+      >
+        <v-tabs-slider color="yellow" />
+        <v-tab
+          v-for="item in tabItems"
+          :key="item"
+        >
+          {{ item }}
+        </v-tab>
+      </v-tabs>
     </v-toolbar>
+    <v-tabs-items v-model="tab">
+      <v-tab-item
+        v-for="item in tabItems"
+        :key="item"
+      >
+        <v-card flat>
+          <v-form
+            v-if="item == 'Venue Search'"
+            ref="form"
+            v-model="valid"
+          >
+            <v-container>
+              <v-layout
+                row
+                wrap
+              >
+                <v-flex
+                  xs12
+                  sm4
+                  offset-sm1
+                >
+                  <v-text-field
+                    v-model="query"
+                    label="Query"
+                    required />
+                </v-flex>
+                <v-flex
+                  xs12
+                  sm4
+                >
+                  <v-combobox
+                    v-model="select"
+                    :items="items"
+                    label="Categories (Optional)"
+                    multiple />
+                </v-flex>
+                <v-flex
+                  xs12
+                  sm2
+                >
+                  <v-btn
+                    :disabled="!valid"
+                    @click="submit"
+                  >Search</v-btn>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+          <v-form
+            v-else-if="item == 'Specific Venue'"
+            ref="form"
+            v-model="valid"
+          >
+            <v-container>
+              <v-layout
+                row
+                wrap
+              >
+                <v-flex
+                  xs12
+                  sm6
+                  offset-sm2
+                >
+                  <v-text-field
+                    v-model="venueId"
+                    label="Foursquare Venue ID"
+                    required />
+                </v-flex>
+                <v-flex
+                  xs12
+                  sm2
+                >
+                  <v-btn
+                    :disabled="!valid"
+                    @click="submit"
+                  >Search</v-btn>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
   </div>
 </template>
 
@@ -61,7 +157,22 @@
   export default {
     data() {
       return {
+        tab: null,
+        valid: true,
+        query: '',
+        venueId: '',
         drawer: false,
+        tabItems: [
+          'Venue Search',
+          'Specific Venue',
+        ], // eslint-disable-next-line
+        select: [],
+        items: [
+          'Convenience Store',
+          'Beer Bar',
+          'Supermarket',
+          'Bus Stop',
+        ],
       };
     },
     computed: {
@@ -75,6 +186,9 @@
       },
       logout() {
         this.$auth.logout();
+      },
+      submit() {
+        console.log('submitted');
       },
     },
   };

@@ -2,6 +2,7 @@
   <l-map
     :zoom="zoom"
     :center="center"
+    style="z-index: 1;"
   >
     <l-tile-layer
       :url="url"

@@ -7,7 +7,6 @@
       xs4
     >
       <h1>Login Completed!</h1>
-      <p>{{ $auth.$storage.getLocalStorage('_token.social') }}</p>
     </v-flex>
     <v-flex
       xs8
