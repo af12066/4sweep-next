@@ -36,7 +36,7 @@ module.exports = {
         response_type: 'token',
         scope: [],
         token_type: 'Authorization',
-        redirect_uri: `${process.env.BASE_URL}/login`,
+        redirect_uri: `${process.env.BASE_URL || 'http://localhost:3000'}/login`,
         client_id: process.env.FOURSQUARE_CLIENT_ID,
       },
     },

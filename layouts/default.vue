@@ -9,15 +9,18 @@
         <nuxt />
       </v-container>
     </v-content>
+    <vfooter />
   </v-app>
 </template>
 
 <script>
 import NavBar from '~/components/navbar';
+import Vfooter from '~/components/vfooter';
 
 export default {
   components: {
     NavBar,
+    Vfooter,
   },
 };
 </script>
