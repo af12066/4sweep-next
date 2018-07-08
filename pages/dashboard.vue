@@ -26,8 +26,8 @@ export default {
   },
   created() {
     this.$store.dispatch(type.FETCH_SELF_USER_DATA);
+    this.$store.dispatch(type.FETCH_ALL_CATEGORIES);
   },
-
 };
 </script>
 

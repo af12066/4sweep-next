@@ -53,6 +53,7 @@
         >Sign in</v-btn>
       </v-toolbar-items>
       <v-tabs
+        v-if="isAuthenticated"
         slot="extension"
         v-model="tab"
         color="indigo"
@@ -67,7 +68,10 @@
         </v-tab>
       </v-tabs>
     </v-toolbar>
-    <v-tabs-items v-model="tab">
+    <v-tabs-items
+      v-if="isAuthenticated"
+      v-model="tab"
+    >
       <v-tab-item
         v-for="item in tabItems"
         :key="item"
@@ -99,7 +103,7 @@
                 >
                   <v-combobox
                     v-model="select"
-                    :items="items"
+                    :items="allCategories"
                     label="Categories (Optional)"
                     multiple />
                 </v-flex>
@@ -165,19 +169,16 @@
         tabItems: [
           'Venue Search',
           'Specific Venue',
-        ], // eslint-disable-next-line
-        select: [],
-        items: [
-          'Convenience Store',
-          'Beer Bar',
-          'Supermarket',
-          'Bus Stop',
         ],
+        select: [],
       };
     },
     computed: {
       isAuthenticated() {
         return this.$auth.loggedIn;
+      },
+      allCategories() {
+        return this.$store.getters.allCategories;
       },
     },
     methods: {
@@ -195,8 +196,8 @@
 </script>
 <style scoped>
   img.avatar {
-  margin: 0 10px;
-  border-radius: 3px;
-  width: 30px;
-}
+    margin: 0 10px;
+    border-radius: 3px;
+    width: 30px;
+  }
 </style>
