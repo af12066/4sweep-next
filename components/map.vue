@@ -1,5 +1,6 @@
 <template>
   <l-map
+    ref="map"
     :zoom="zoom"
     :center="center"
     style="z-index: 1;"
@@ -8,11 +9,14 @@
       :url="url"
       :attribution="attribution" />
     <l-marker
-      :lat-lng="marker" />
+      :lat-lng="marker.position"
+      :draggable="marker.draggable"
+      @moveend="setMoveEndPositions" />
   </l-map>
 </template>
 
 <script>
+import * as type from '../store/action-types';
 import L from 'leaflet';
 delete L.Icon.Default.prototype._getIconUrl;
 import {LMap, LTileLayer, LMarker} from 'vue2-leaflet';
@@ -33,11 +37,29 @@ export default {
   data() {
     return {
       zoom: 13,
-      center: L.latLng(47.413220, -1.219482),
+      center: L.latLng(
+        this.$store.getters.currentMarkerPosition.lat,
+        this.$store.getters.currentMarkerPosition.lng
+      ),
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      marker: L.latLng(47.413220, -1.219482),
+      marker: {
+        position: {
+          lat: this.$store.getters.currentMarkerPosition.lat,
+          lng: this.$store.getters.currentMarkerPosition.lng,
+        },
+        draggable: true,
+        visible: true,
+      },
     };
+  },
+  methods: {
+    setMoveEndPositions() {
+      this.$store.dispatch(type.SET_CURRENT_POSITION, {
+        lat: this.marker.position.lat,
+        lng: this.marker.position.lng,
+      });
+    },
   },
 };
 </script>
