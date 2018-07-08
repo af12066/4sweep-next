@@ -1,0 +1,7 @@
+export const SET_SELF_USER_DATA = 'SET_SELF_USER_DATA';
+export const SET_AVATAR_URL = 'SET_AVATAR_URL';
+
+export const MUTATION = {
+  SET_SELF_USER_DATA,
+  SET_AVATAR_URL,
+};

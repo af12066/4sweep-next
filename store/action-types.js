@@ -1,0 +1,5 @@
+export const FETCH_SELF_USER_DATA = 'FETCH_SELF_USER_DATA';
+
+export const ACTION = {
+  FETCH_SELF_USER_DATA,
+};
