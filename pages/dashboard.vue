@@ -24,6 +24,9 @@ export default {
   components: {
     Map,
   },
+  middleware: [
+    'auth',
+  ],
   created() {
     this.$store.dispatch(type.FETCH_SELF_USER_DATA);
     this.$store.dispatch(type.FETCH_ALL_CATEGORIES);

@@ -16,5 +16,6 @@ module.exports = {
   ],
   rules: {
     'vue/valid-v-on': 1,
+    'require-jsdoc': 0,
   },
 };

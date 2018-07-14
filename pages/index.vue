@@ -36,6 +36,9 @@
 
 <script>
   export default {
+    middleware: [
+      'auth',
+    ],
     methods: {
       authenticate() {
         this.$auth.loginWith('social');
