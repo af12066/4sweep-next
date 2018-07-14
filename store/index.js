@@ -5,6 +5,7 @@ import {MUTATION} from './mutation-types';
 
 const store = () => new Vuex.Store({
   state: {
+    initMapHeight: 0,
     user: {},
     cat: [],
     categories: [], // eslint-disable-next-line
@@ -14,6 +15,7 @@ const store = () => new Vuex.Store({
       lat: 35.681155,
       lng: 139.766893,
     },
+    searchedVenues: [],
   },
   getters: {
     isAuthenticated: (state) => {
@@ -27,6 +29,9 @@ const store = () => new Vuex.Store({
     },
     currentMarkerPosition: (state) => {
       return state.position;
+    },
+    searchedVenues: (state) => {
+      return state.searchedVenues;
     },
   },
   actions: {
@@ -69,6 +74,26 @@ const store = () => new Vuex.Store({
         },
       });
     },
+    [ACTION.SEARCH_VENUES]({commit}, payload) {
+      axios.get('https://api.foursquare.com/v2/venues/search?oauth_token=' +
+      this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
+      '&v=' + this.state.apiVersion +
+      '&ll=' + Object.values(this.state.position).join(',') +
+      '&radius=' + payload.radiusMeters +
+      '&intent=browse')
+      .then((res) => {
+        commit({
+          type: MUTATION.SET_SEARCHED_VENUES,
+          data: res.data.response.venues,
+        });
+      });
+    },
+    [ACTION.UPDATE_MAP_HEIGHT]({commit}, payload) {
+      commit({
+        type: MUTATION.SET_MAP_HEIGHT,
+        data: payload.height,
+      });
+    },
   },
   mutations: {
     [MUTATION.SET_SELF_USER_DATA](state, payload) {
@@ -85,6 +110,12 @@ const store = () => new Vuex.Store({
     [MUTATION.SET_CURRENT_POSITION](state, payload) {
       state.position.lat = payload.data.lat;
       state.position.lng = payload.data.lng;
+    },
+    [MUTATION.SET_SEARCHED_VENUES](state, payload) {
+      state.searchedVenues = payload.data;
+    },
+    [MUTATION.SET_MAP_HEIGHT](state, payload) {
+      state.initMapHeight = payload.data;
     },
   },
 });

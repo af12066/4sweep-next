@@ -53,11 +53,26 @@ export default {
       },
     };
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.setMapHeight(this.$refs.map.$el.offsetHeight - 100);
+    });
+  },
   methods: {
     setMoveEndPositions() {
       this.$store.dispatch(type.SET_CURRENT_POSITION, {
         lat: this.marker.position.lat,
         lng: this.marker.position.lng,
+      })
+      .then(() => {
+        this.$store.dispatch(type.SEARCH_VENUES, {
+          radiusMeters: 100,
+        });
+      });
+    },
+    setMapHeight(h) {
+      this.$store.dispatch(type.UPDATE_MAP_HEIGHT, {
+        height: h,
       });
     },
   },

@@ -4,12 +4,12 @@
     wrap
   >
     <v-flex
-      xs4
+      xs6
     >
-      <h1>Login Completed!</h1>
+      <VenueList />
     </v-flex>
     <v-flex
-      xs8
+      xs6
     >
       <Map />
     </v-flex>
@@ -19,10 +19,12 @@
 <script>
 import * as type from '../store/action-types';
 import Map from '~/components/map';
+import VenueList from '~/components/venuelist';
 
 export default {
   components: {
     Map,
+    VenueList,
   },
   middleware: [
     'auth',
