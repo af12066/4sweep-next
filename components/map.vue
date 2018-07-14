@@ -41,8 +41,8 @@ export default {
         this.$store.getters.currentMarkerPosition.lat,
         this.$store.getters.currentMarkerPosition.lng
       ),
-      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       marker: {
         position: {
           lat: this.$store.getters.currentMarkerPosition.lat,
