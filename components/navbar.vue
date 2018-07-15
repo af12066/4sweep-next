@@ -7,7 +7,37 @@
       temporary
       app
     >
+      <v-list
+        v-if="isAuthenticated"
+        two-line
+      >
+        <v-list-tile
+          :href="$store.state.user.canonicalUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          avatar
+          @click=""
+        >
+          <v-list-tile-avatar>
+            <img
+              :src="$store.state.avatarURL"
+              alt="your avatar"
+            >
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title
+              v-html="$store.state.user.firstName"
+            />
+            <v-list-tile-sub-title
+              v-html="`Superuser Level${$store.state.user.superuser}`"
+            />
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
       <v-list dense>
+        <v-divider
+          v-if="isAuthenticated"
+        />
         <v-list-tile @click="">
           <v-list-tile-action>
             <v-icon>home</v-icon>
@@ -25,6 +55,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-dialog
+          v-if="isAuthenticated"
           v-model="dialog"
           scrollable
           max-width="20rem"
