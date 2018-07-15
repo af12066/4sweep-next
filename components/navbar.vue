@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer
+      :stateless="dialog"
       v-model="drawer"
       absolute
       temporary
@@ -23,6 +24,66 @@
             <v-list-tile-title>Contact</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-dialog
+          v-model="dialog"
+          scrollable
+          max-width="20rem"
+          style="display: block;"
+        >
+          <v-list-tile
+            slot="activator"
+            @click=""
+          >
+            <v-list-tile-action>
+              <v-icon>language</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                Locale
+                <span
+                  class="caption"
+                >
+                  (Current: {{ $auth.$storage.getUniversal('locale', false) }})
+                </span>
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-card>
+            <v-card-title>Select Locale</v-card-title>
+            <v-divider />
+            <v-card-text style="height: 300px;">
+              <v-radio-group
+                v-model="selectedLocale"
+                column
+              >
+                <v-radio
+                  v-for="locale in locales"
+                  :key="locale"
+                  :label="locale"
+                  :value="locale"
+                  color="indigo"
+                />
+              </v-radio-group>
+            </v-card-text>
+            <v-divider />
+            <v-card-actions>
+              <v-btn
+                color="indigo darken-1"
+                flat
+                @click.native="dialog = false"
+              >
+                Close
+              </v-btn>
+              <v-btn
+                color="indigo darken-1"
+                flat
+                @click.native="updateLocale"
+              >
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar
@@ -160,6 +221,8 @@
 </template>
 
 <script>
+  import * as type from '../store/action-types';
+
   export default {
     data() {
       return {
@@ -167,11 +230,17 @@
         valid: true,
         query: '',
         venueId: '',
+        dialog: false,
         drawer: false,
         tabItems: [
           'Venue Search',
           'Specific Venue',
         ],
+        locales: [
+          'en', 'es', 'fr', 'de', 'it', 'ja',
+          'th', 'tr', 'ko', 'ru', 'pt', 'id',
+        ],
+        selectedLocale: '',
         select: [],
       };
     },
@@ -183,6 +252,9 @@
         return this.$store.getters.allCategories;
       },
     },
+    mounted() {
+      this.selectedLocale = this.$store.state.locale;
+    },
     methods: {
       authenticate() {
         this.$auth.loginWith('social');
@@ -192,6 +264,18 @@
       },
       submit() {
         console.log('submitted');
+      },
+      updateLocale() {
+        this.dialog = false;
+        this.$store.dispatch(
+          type.UPDATE_CURRENT_LOCALE,
+          {locale: this.selectedLocale},
+        )
+        .then(() => {
+          this.$store.dispatch(
+            type.FETCH_ALL_CATEGORIES,
+          );
+        });
       },
     },
   };

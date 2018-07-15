@@ -35,8 +35,11 @@ export default {
     'auth',
   ],
   created() {
-    this.$store.dispatch(type.FETCH_SELF_USER_DATA);
-    this.$store.dispatch(type.FETCH_ALL_CATEGORIES);
+    this.$store.dispatch(type.SET_CURRENT_LOCALE)
+    .then(() => {
+      this.$store.dispatch(type.FETCH_SELF_USER_DATA);
+      this.$store.dispatch(type.FETCH_ALL_CATEGORIES);
+    });
   },
 };
 </script>

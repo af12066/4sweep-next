@@ -39,7 +39,8 @@ const store = () => new Vuex.Store({
     [ACTION.FETCH_SELF_USER_DATA]({commit}) {
       axios.get('https://api.foursquare.com/v2/users/self?oauth_token=' +
       this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
-      '&v=' + this.state.apiVersion)
+      '&v=' + this.state.apiVersion +
+      '&locale=' + this.$auth.$storage.getUniversal('locale', false))
       .then((res) => {
         commit({
           type: MUTATION.SET_SELF_USER_DATA,
@@ -58,12 +59,25 @@ const store = () => new Vuex.Store({
     [ACTION.FETCH_ALL_CATEGORIES]({commit}) {
       axios.get('https://api.foursquare.com/v2/venues/categories?oauth_token=' +
       this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
-      '&v=' + this.state.apiVersion)
+      '&v=' + this.state.apiVersion +
+      '&locale=' + this.$auth.$storage.getUniversal('locale', false))
       .then((res) => {
         commit({
           type: MUTATION.SET_ALL_CATEGORIES,
           data: res.data.response.categories,
         });
+      });
+    },
+    [ACTION.SET_CURRENT_LOCALE]({commit}) {
+      commit({
+        type: MUTATION.SET_CURRENT_LOCALE,
+        data: this.$auth.$storage.getUniversal('locale', false),
+      });
+    },
+    [ACTION.UPDATE_CURRENT_LOCALE]({commit}, payload) {
+      commit({
+        type: MUTATION.UPDATE_CURRENT_LOCALE,
+        data: payload.locale,
       });
     },
     [ACTION.SET_CURRENT_POSITION]({commit}, payload) {
@@ -79,6 +93,7 @@ const store = () => new Vuex.Store({
       axios.get('https://api.foursquare.com/v2/venues/search?oauth_token=' +
       this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
       '&v=' + this.state.apiVersion +
+      '&locale=' + this.$auth.$storage.getUniversal('locale', false) +
       '&ll=' + Object.values(this.state.position).join(',') +
       '&radius=' + payload.radiusMeters +
       '&intent=browse')
@@ -102,6 +117,12 @@ const store = () => new Vuex.Store({
     },
     [MUTATION.SET_AVATAR_URL](state, payload) {
       state.avatarURL = payload.data;
+    },
+    [MUTATION.SET_CURRENT_LOCALE](state, payload) {
+      state.locale = payload.data;
+    },
+    [MUTATION.UPDATE_CURRENT_LOCALE](state, payload) {
+      this.$auth.$storage.setUniversal('locale', payload.data, false);
     },
     [MUTATION.SET_ALL_CATEGORIES](state, payload) {
       state.categories = payload.data.map((x) => {
