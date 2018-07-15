@@ -54,7 +54,8 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(() => {
+    this.$nextTick()
+    .then(() => {
       this.setMapHeight(this.$refs.map.$el.offsetHeight - 100);
     });
   },
