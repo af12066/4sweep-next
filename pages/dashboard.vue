@@ -22,6 +22,11 @@ import Map from '~/components/map';
 import VenueList from '~/components/venuelist';
 
 export default {
+  head() {
+    return {
+      title: `Dashboard | ${this.$store.state.defaultTitle}`,
+    };
+  },
   components: {
     Map,
     VenueList,

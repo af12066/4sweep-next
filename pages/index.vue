@@ -8,8 +8,9 @@
         xs12
       >
         <h1
+          v-once
           class="display-3 font-weight-regular"
-        >4sweep-next</h1>
+        >{{ $store.state.defaultTitle }}</h1>
         <p class="subheading">
           Next generation 4sweep, which help all superusers to edit venues.
         </p>
@@ -36,6 +37,11 @@
 
 <script>
   export default {
+    head() {
+      return {
+        title: this.$store.state.defaultTitle,
+      };
+    },
     middleware: [
       'auth',
     ],

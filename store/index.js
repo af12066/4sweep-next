@@ -5,6 +5,7 @@ import {MUTATION} from './mutation-types';
 
 const store = () => new Vuex.Store({
   state: {
+    defaultTitle: '4sweep-next',
     initMapHeight: 0,
     user: {},
     cat: [],

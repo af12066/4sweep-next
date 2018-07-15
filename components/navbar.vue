@@ -31,7 +31,9 @@
       tabs
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>4sweep-next</v-toolbar-title>
+      <v-toolbar-title v-once>
+        {{ $store.state.defaultTitle }}
+      </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn
