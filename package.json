@@ -30,10 +30,10 @@
   },
   "devDependencies": {
     "ajv": "^6.5.2",
-    "babel-eslint": "^8.2.5",
+    "babel-eslint": "^8.2.6",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "eslint-loader": "^2.0.0",
-    "eslint-plugin-vue": "^4.5.0"
+    "eslint-plugin-vue": "^4.7.0"
   }
 }
