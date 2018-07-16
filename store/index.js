@@ -69,10 +69,18 @@ const store = () => new Vuex.Store({
       });
     },
     [ACTION.SET_CURRENT_LOCALE]({commit}) {
-      commit({
-        type: MUTATION.SET_CURRENT_LOCALE,
-        data: this.$auth.$storage.getUniversal('locale', false),
-      });
+      const storedLocale = this.$auth.$storage.getUniversal('locale', false);
+      if (storedLocale === null) {
+        commit({
+          type: MUTATION.UPDATE_CURRENT_LOCALE,
+          data: 'en',
+        });
+      } else {
+        commit({
+          type: MUTATION.SET_CURRENT_LOCALE,
+          data: storedLocale,
+        });
+      }
     },
     [ACTION.UPDATE_CURRENT_LOCALE]({commit}, payload) {
       commit({
