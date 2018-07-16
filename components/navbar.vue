@@ -29,8 +29,14 @@
               v-html="$store.state.user.firstName"
             />
             <v-list-tile-sub-title
-              v-html="`Superuser Level${$store.state.user.superuser}`"
+              v-if="$store.state.user.superuser !== undefined"
+              v-html="`Superuser Level ${$store.state.user.superuser}`"
             />
+            <v-list-tile-sub-title
+              v-else
+            >
+              Not a superuser
+            </v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
