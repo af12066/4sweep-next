@@ -106,9 +106,15 @@ const store = () => new Vuex.Store({
       '&radius=' + payload.radiusMeters +
       '&intent=browse')
       .then((res) => {
+        const venues = res.data.response.venues;
+        // add 'isChecked' key to use in venueList
+        venues.map((venue) => {
+          venue.isChecked = false;
+          return venue;
+        });
         commit({
           type: MUTATION.SET_SEARCHED_VENUES,
-          data: res.data.response.venues,
+          data: venues,
         });
       });
     },
