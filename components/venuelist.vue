@@ -43,7 +43,9 @@
                 v-model="venue.isChecked"
               />
             </v-list-tile-action>
-            <v-list-tile-avatar>
+            <v-list-tile-avatar
+              tile
+            >
               <img
                 :src="venue.categories[0].icon.prefix +
                 'bg_44' + venue.categories[0].icon.suffix">
