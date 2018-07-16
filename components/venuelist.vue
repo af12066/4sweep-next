@@ -19,6 +19,14 @@
       overflow-y: scroll`"
     >
       <v-list two-line>
+        <v-subheader>
+          <v-flex xs1>
+            <v-checkbox
+              v-model="allChecked"
+              class="mr-0"
+            />
+          </v-flex>
+        </v-subheader>
         <template v-for="(venue, index) in searchedVenues">
           <v-divider
             v-if="index > 0"
@@ -61,11 +69,20 @@ export default {
   data() {
     return {
       toolbarHeight: 0,
+      allChecked: false,
+      toggle_none: null,
     };
   },
   computed: {
     searchedVenues() {
       return this.$store.getters.searchedVenues;
+    },
+  },
+  watch: {
+    allChecked: function() {
+      this.$store.state.searchedVenues.map((venue) => {
+        venue.isChecked = this.allChecked;
+      });
     },
   },
   mounted() {
