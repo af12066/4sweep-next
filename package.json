@@ -16,7 +16,7 @@
   },
   "precommit": "npm run lint",
   "author": "Takuma Hashimoto",
-  "license": "ISC",
+  "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/af12066/4sweep-next/issues"
   },
