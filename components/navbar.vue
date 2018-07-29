@@ -1,40 +1,35 @@
 <template>
   <div>
     <v-navigation-drawer
-      :stateless="dialog"
       v-model="drawer"
+      :stateless="dialog"
       absolute
       temporary
-      app
-    >
+      app>
       <v-list
         v-if="isAuthenticated"
-        two-line
-      >
+        two-line>
         <v-list-tile
           :href="$store.state.user.canonicalUrl"
           target="_blank"
           rel="noopener noreferrer"
           avatar
-          @click=""
-        >
+          @click="">
           <v-list-tile-avatar>
             <img
               :src="$store.state.avatarURL"
-              alt="your avatar"
-            >
+              alt="your avatar">
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title
-              v-html="$store.state.user.firstName"
-            />
+            <v-list-tile-title>
+              {{ $store.state.user.firstName }}
+            </v-list-tile-title>
             <v-list-tile-sub-title
-              v-if="$store.state.user.superuser !== undefined"
-              v-html="`Superuser Level ${$store.state.user.superuser}`"
-            />
+              v-if="$store.state.user.superuser !== undefined">
+              Superuser Level {{ $store.state.user.superuser }}
+            </v-list-tile-sub-title>
             <v-list-tile-sub-title
-              v-else
-            >
+              v-else>
               Not a superuser
             </v-list-tile-sub-title>
           </v-list-tile-content>
@@ -42,8 +37,7 @@
       </v-list>
       <v-list dense>
         <v-divider
-          v-if="isAuthenticated"
-        />
+          v-if="isAuthenticated" />
         <v-list-tile @click="">
           <v-list-tile-action>
             <v-icon>home</v-icon>
@@ -65,12 +59,10 @@
           v-model="dialog"
           scrollable
           max-width="20rem"
-          style="display: block;"
-        >
+          style="display: block;">
           <v-list-tile
             slot="activator"
-            @click=""
-          >
+            @click="">
             <v-list-tile-action>
               <v-icon>language</v-icon>
             </v-list-tile-action>
@@ -78,8 +70,7 @@
               <v-list-tile-title>
                 Locale
                 <span
-                  class="caption"
-                >
+                  class="caption">
                   (Current: {{ $auth.$storage.getUniversal('locale', false) }})
                 </span>
               </v-list-tile-title>
@@ -91,15 +82,13 @@
             <v-card-text style="height: 300px;">
               <v-radio-group
                 v-model="selectedLocale"
-                column
-              >
+                column>
                 <v-radio
                   v-for="locale in locales"
                   :key="locale"
                   :label="locale"
                   :value="locale"
-                  color="indigo"
-                />
+                  color="indigo" />
               </v-radio-group>
             </v-card-text>
             <v-divider />
@@ -107,15 +96,13 @@
               <v-btn
                 color="indigo darken-1"
                 flat
-                @click.native="dialog = false"
-              >
+                @click.native="dialog = false">
                 Close
               </v-btn>
               <v-btn
                 color="indigo darken-1"
                 flat
-                @click.native="updateLocale"
-              >
+                @click.native="updateLocale">
                 Save
               </v-btn>
             </v-card-actions>
@@ -126,8 +113,7 @@
     <v-toolbar
       color="indigo"
       dark
-      tabs
-    >
+      tabs>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-once>
         {{ $store.state.defaultTitle }}
@@ -137,61 +123,51 @@
         <v-btn
           v-if="isAuthenticated"
           flat
-          @click="logout"
-        >
+          @click="logout">
           <img
             :src="$store.state.avatarURL"
             alt="your avatar"
-            class="avatar"
-          >
+            class="avatar">
           Sign out
         </v-btn>
         <v-btn
           v-else
           flat
-          @click="authenticate"
-        >Sign in</v-btn>
+          @click="authenticate">Sign in</v-btn>
       </v-toolbar-items>
       <v-tabs
         v-if="isAuthenticated"
         slot="extension"
         v-model="tab"
         color="indigo"
-        align-with-title
-      >
+        align-with-title>
         <v-tabs-slider color="yellow" />
         <v-tab
           v-for="item in tabItems"
-          :key="item"
-        >
+          :key="item">
           {{ item }}
         </v-tab>
       </v-tabs>
     </v-toolbar>
     <v-tabs-items
       v-if="isAuthenticated"
-      v-model="tab"
-    >
+      v-model="tab">
       <v-tab-item
         v-for="item in tabItems"
-        :key="item"
-      >
+        :key="item">
         <v-card flat>
           <v-form
             v-if="item == 'Venue Search'"
             ref="form"
-            v-model="valid"
-          >
+            v-model="valid">
             <v-container>
               <v-layout
                 row
-                wrap
-              >
+                wrap>
                 <v-flex
                   xs12
                   sm4
-                  offset-sm1
-                >
+                  offset-sm1>
                   <v-text-field
                     v-model="query"
                     label="Query"
@@ -199,8 +175,7 @@
                 </v-flex>
                 <v-flex
                   xs12
-                  sm4
-                >
+                  sm4>
                   <v-combobox
                     v-model="select"
                     :items="allCategories"
@@ -209,12 +184,10 @@
                 </v-flex>
                 <v-flex
                   xs12
-                  sm2
-                >
+                  sm2>
                   <v-btn
                     :disabled="!valid"
-                    @click="submit"
-                  >Search</v-btn>
+                    @click="submit">Search</v-btn>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -222,18 +195,15 @@
           <v-form
             v-else-if="item == 'Specific Venue'"
             ref="form"
-            v-model="valid"
-          >
+            v-model="valid">
             <v-container>
               <v-layout
                 row
-                wrap
-              >
+                wrap>
                 <v-flex
                   xs12
                   sm6
-                  offset-sm2
-                >
+                  offset-sm2>
                   <v-text-field
                     v-model="venueId"
                     label="Foursquare Venue ID"
@@ -241,12 +211,10 @@
                 </v-flex>
                 <v-flex
                   xs12
-                  sm2
-                >
+                  sm2>
                   <v-btn
                     :disabled="!valid"
-                    @click="submit"
-                  >Search</v-btn>
+                    @click="submit">Search</v-btn>
                 </v-flex>
               </v-layout>
             </v-container>

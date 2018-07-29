@@ -4,8 +4,7 @@
     <v-content>
       <v-container
         fluid
-        fill-height
-      >
+        fill-height>
         <nuxt />
       </v-container>
     </v-content>

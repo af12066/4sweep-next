@@ -3,8 +3,7 @@
     ref="map"
     :zoom="zoom"
     :center="center"
-    style="z-index: 1;"
-  >
+    style="z-index: 1;">
     <l-tile-layer
       :url="url"
       :attribution="attribution" />

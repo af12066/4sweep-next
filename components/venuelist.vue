@@ -1,62 +1,56 @@
 <template>
   <v-card
-    flat
-  >
+    flat>
     <v-toolbar
       ref="toolbar"
       card
-      prominent
-    >
+      prominent>
       <v-toolbar-title
-        class="body-2 grey--text"
-      >
+        class="body-2 grey--text">
         Search Results
       </v-toolbar-title>
     </v-toolbar>
     <div
       :style="`height: ${this.$store.state.initMapHeight
       - toolbarHeight}px;
-      overflow-y: scroll`"
-    >
+      overflow-y: scroll`">
       <v-list two-line>
         <v-subheader>
           <v-flex xs1>
             <v-checkbox
               v-model="allChecked"
-              class="mr-0"
-            />
+              class="mr-0" />
           </v-flex>
         </v-subheader>
         <template v-for="(venue, index) in searchedVenues">
           <v-divider
             v-if="index > 0"
-            :inset="true"
             :key="index"
-          />
+            :inset="true" />
           <v-list-tile
             :key="venue.id"
             avatar
-            @click=""
-          >
+            @click="">
             <v-list-tile-action>
               <v-checkbox
-                v-model="venue.isChecked"
-              />
+                v-model="venue.isChecked" />
             </v-list-tile-action>
             <v-list-tile-avatar
-              tile
-            >
+              tile>
               <img
                 :src="venue.categories[0].icon.prefix +
                 'bg_44' + venue.categories[0].icon.suffix">
             </v-list-tile-avatar>
 
             <v-list-tile-content>
-              <v-list-tile-title v-html="venue.name" />
-              <v-list-tile-sub-title
-                v-html="venue.categories.map((category) => {
+              <v-list-tile-title>
+                {{ venue.name }}
+              </v-list-tile-title>
+              <v-list-tile-sub-title>
+                {{ venue.categories.map((category) => {
                   return category.name;
-              }).join(', ')" />
+                }).join(', ') }}
+              </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
         </template>
