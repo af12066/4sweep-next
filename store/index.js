@@ -16,6 +16,7 @@ const store = () => new Vuex.Store({
       lat: 35.681155,
       lng: 139.766893,
     },
+    searchQuery: '',
     searchedVenues: [],
   },
   getters: {
@@ -104,6 +105,9 @@ const store = () => new Vuex.Store({
       '&locale=' + this.$auth.$storage.getUniversal('locale', false) +
       '&ll=' + Object.values(this.state.position).join(',') +
       '&radius=' + payload.radiusMeters +
+      '&query=' + (payload.query !== undefined
+        ? new URLSearchParams(payload.query).toString()
+        : '') +
       '&intent=browse')
       .then((res) => {
         const venues = res.data.response.venues;
@@ -116,6 +120,14 @@ const store = () => new Vuex.Store({
           type: MUTATION.SET_SEARCHED_VENUES,
           data: venues,
         });
+      });
+    },
+    [ACTION.SET_SEARCH_QUERY]({commit}, payload) {
+      // Set raw string (non-encoded query).
+      // Encode process will execute at SEARCH_VENUES action.
+      commit({
+        type: MUTATION.SET_SEARCH_QUERY,
+        data: payload.query,
       });
     },
     [ACTION.UPDATE_MAP_HEIGHT]({commit}, payload) {
@@ -149,6 +161,9 @@ const store = () => new Vuex.Store({
     },
     [MUTATION.SET_SEARCHED_VENUES](state, payload) {
       state.searchedVenues = payload.data;
+    },
+    [MUTATION.SET_SEARCH_QUERY](state, payload) {
+      state.searchQuery = payload.data;
     },
     [MUTATION.SET_MAP_HEIGHT](state, payload) {
       state.initMapHeight = payload.data;

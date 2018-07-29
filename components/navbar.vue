@@ -187,7 +187,7 @@
                   sm2>
                   <v-btn
                     :disabled="!valid"
-                    @click="submit">Search</v-btn>
+                    @click="searchByVenueName">Search</v-btn>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -279,6 +279,21 @@
         .then(() => {
           this.$store.dispatch(
             type.FETCH_ALL_CATEGORIES,
+          );
+        });
+      },
+      searchByVenueName() {
+        this.$store.dispatch(
+          type.SET_SEARCH_QUERY,
+          {query: this.query}
+        )
+        .then(() => {
+          this.$store.dispatch(
+            type.SEARCH_VENUES,
+            {
+              radiusMeters: 100,
+              query: this.query,
+            },
           );
         });
       },
