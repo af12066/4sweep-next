@@ -177,8 +177,8 @@
                   xs12
                   sm4>
                   <v-combobox
-                    v-model="select"
-                    :items="allCategories"
+                    v-model="selectedCategories"
+                    :items="Object.keys(allCategories)"
                     label="Categories (Optional)"
                     multiple />
                 </v-flex>
@@ -246,7 +246,7 @@
           'th', 'tr', 'ko', 'ru', 'pt', 'id',
         ],
         selectedLocale: '',
-        select: [],
+        selectedCategories: [],
       };
     },
     computed: {
@@ -288,11 +288,15 @@
           {query: this.query}
         )
         .then(() => {
+          const categoryId = this.selectedCategories.map((categoryKey) => {
+            return this.allCategories[categoryKey];
+          }).join(',');
           this.$store.dispatch(
             type.SEARCH_VENUES,
             {
               radiusMeters: 100,
               query: this.query,
+              categoryId,
             },
           );
         });
