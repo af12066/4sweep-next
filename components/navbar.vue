@@ -292,13 +292,19 @@
             return this.allCategories[categoryKey];
           }).join(',');
           this.$store.dispatch(
-            type.SEARCH_VENUES,
-            {
-              radiusMeters: 100,
-              query: this.query,
-              categoryId,
-            },
-          );
+            type.SET_SEARCH_CATEGORY,
+            {categoryId},
+          )
+          .then(() => {
+            this.$store.dispatch(
+              type.SEARCH_VENUES,
+              {
+                radiusMeters: 100,
+                query: this.query,
+                categoryId,
+              },
+            );
+          });
         });
       },
     },

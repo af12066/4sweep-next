@@ -18,6 +18,7 @@ const store = () => new Vuex.Store({
       lng: 139.766893,
     },
     searchQuery: '',
+    searchCategoryIds: '',
     searchedVenues: [],
   },
   getters: {
@@ -155,6 +156,14 @@ const store = () => new Vuex.Store({
         data: payload.query,
       });
     },
+    [ACTION.SET_SEARCH_CATEGORY]({commit}, payload) {
+      // Set category IDs (join by comma)
+      // e.g. 'abcdef01234,cdefa98765'
+      commit({
+        type: MUTATION.SET_SEARCH_CATEGORY,
+        data: payload.categoryId,
+      });
+    },
     [ACTION.UPDATE_MAP_HEIGHT]({commit}, payload) {
       commit({
         type: MUTATION.SET_MAP_HEIGHT,
@@ -187,6 +196,9 @@ const store = () => new Vuex.Store({
     },
     [MUTATION.SET_SEARCH_QUERY](state, payload) {
       state.searchQuery = payload.data;
+    },
+    [MUTATION.SET_SEARCH_CATEGORY](state, payload) {
+      state.searchCategoryIds = payload.data;
     },
     [MUTATION.SET_MAP_HEIGHT](state, payload) {
       state.initMapHeight = payload.data;

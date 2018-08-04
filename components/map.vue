@@ -68,6 +68,7 @@ export default {
         this.$store.dispatch(type.SEARCH_VENUES, {
           radiusMeters: 100,
           query: this.$store.state.searchQuery,
+          categoryId: this.$store.state.searchCategoryIds,
         });
       });
     },
