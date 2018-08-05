@@ -5,6 +5,9 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
   ],
+  plugins: [
+    '~plugins/vee-validate.js',
+  ],
   env: {
     FOURSQUARE_CLIENT_ID: process.env.FOURSQUARE_CLIENT_ID,
     BASE_URL: process.env.BASE_URL || 'http://localhost:3000',

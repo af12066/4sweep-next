@@ -3,14 +3,17 @@
     ref="map"
     :zoom="zoom"
     :center="center"
-    style="z-index: 1;">
+    style="z-index: 1;"
+  >
     <l-tile-layer
       :url="url"
-      :attribution="attribution" />
+      :attribution="attribution"
+    />
     <l-marker
       :lat-lng="marker.position"
       :draggable="marker.draggable"
-      @moveend="setMoveEndPositions" />
+      @moveend="setMoveEndPositions"
+    />
   </l-map>
 </template>
 
@@ -40,7 +43,7 @@ export default {
         this.$store.getters.currentMarkerPosition.lat,
         this.$store.getters.currentMarkerPosition.lng
       ),
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', // eslint-disable-next-line
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       marker: {
         position: {

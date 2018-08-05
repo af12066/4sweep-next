@@ -1,13 +1,16 @@
 <template>
   <v-layout
     row
-    wrap>
+    wrap
+  >
     <v-flex
-      xs6>
+      xs6
+    >
       <VenueList />
     </v-flex>
     <v-flex
-      xs6>
+      xs6
+    >
       <Map />
     </v-flex>
   </v-layout>

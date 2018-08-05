@@ -46,8 +46,8 @@ const store = () => new Vuex.Store({
           id: state.specificVenueDetail.venue.id,
           name: state.specificVenueDetail.venue.name,
           phone: state.specificVenueDetail.venue.contact.phone,
-          twitter: state.specificVenueDetail.venue.contact.twitter,
-          facebook: `https://www.facebook.com/${state.specificVenueDetail.venue.contact.facebookUsername}`,
+          twitter: state.specificVenueDetail.venue.contact.twitter, // eslint-disable-next-line
+          facebook: state.specificVenueDetail.venue.contact.facebookUsername === undefined ? '' : `https://www.facebook.com/${state.specificVenueDetail.venue.contact.facebookUsername}`,
           instagram: state.specificVenueDetail.venue.contact.instagram,
           address: state.specificVenueDetail.venue.location.address,
           crossStreet: state.specificVenueDetail.venue.location.crossStreet,
@@ -191,7 +191,6 @@ const store = () => new Vuex.Store({
       '&v=' + this.state.apiVersion +
       '&locale=' + this.$auth.$storage.getUniversal('locale', false))
       .then((res) => {
-        console.log(res.data.response);
         commit({
           type: MUTATION.SET_SPECIFIC_VENUE_DETAIL,
           data: res.data.response,

@@ -2,12 +2,15 @@
   <v-jumbotron>
     <v-layout
       row
-      text-xs-center>
+      text-xs-center
+    >
       <v-flex
-        xs12>
+        xs12
+      >
         <h1
           v-once
-          class="display-3 font-weight-regular">
+          class="display-3 font-weight-regular"
+        >
           {{ $store.state.defaultTitle }}
         </h1>
         <p class="subheading">
@@ -17,15 +20,18 @@
     </v-layout>
     <v-layout
       row
-      text-xs-center>
+      text-xs-center
+    >
       <v-flex
         xs6
-        offset-xs3>
+        offset-xs3
+      >
         <v-btn
           dark
           class="pink"
           large
-          @click="authenticate">Sign in with Foursquare</v-btn>
+          @click="authenticate"
+        >Sign in with Foursquare</v-btn>
       </v-flex>
     </v-layout>
   </v-jumbotron>

@@ -17,5 +17,12 @@ module.exports = {
   rules: {
     'vue/valid-v-on': 1,
     'require-jsdoc': 0,
+    'max-len': [
+      'error',
+      {
+        'code': 120,
+        'tabWidth': 2
+      },
+    ],
   },
 };

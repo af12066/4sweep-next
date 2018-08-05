@@ -1,15 +1,18 @@
 <template>
   <v-footer
     app
-    height="auto">
+    height="auto"
+  >
     <v-layout
       justify-center
       row
-      wrap>
+      wrap
+    >
       <img
         src="/powered-by-foursquare.svg"
         alt="Powered by Foursquare"
-        class="powered-by">
+        class="powered-by"
+      >
     </v-layout>
   </v-footer>
 </template>
