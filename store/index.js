@@ -18,8 +18,9 @@ const store = () => new Vuex.Store({
       lng: 139.766893,
     },
     searchQuery: '',
-    searchCategoryIds: '',
+    searchCategory: '',
     searchedVenues: [],
+    specificVenueDetail: {},
   },
   getters: {
     isAuthenticated: (state) => {
@@ -36,6 +37,25 @@ const store = () => new Vuex.Store({
     },
     searchedVenues: (state) => {
       return state.searchedVenues;
+    },
+    specificVenueDetailForEditableStyle: (state) => {
+      if (Object.keys(state.specificVenueDetail).length === 0) {
+        return {};
+      } else {
+        return {
+          id: state.specificVenueDetail.venue.id,
+          name: state.specificVenueDetail.venue.name,
+          phone: state.specificVenueDetail.venue.contact.phone,
+          twitter: state.specificVenueDetail.venue.contact.twitter,
+          facebook: `https://www.facebook.com/${state.specificVenueDetail.venue.contact.facebookUsername}`,
+          instagram: state.specificVenueDetail.venue.contact.instagram,
+          address: state.specificVenueDetail.venue.location.address,
+          crossStreet: state.specificVenueDetail.venue.location.crossStreet,
+          postalCode: state.specificVenueDetail.venue.location.postalCode,
+          city: state.specificVenueDetail.venue.location.city,
+          state: state.specificVenueDetail.venue.location.state,
+        };
+      }
     },
   },
   actions: {
@@ -121,7 +141,6 @@ const store = () => new Vuex.Store({
       });
     },
     [ACTION.SEARCH_VENUES]({commit}, payload) {
-      console.log(payload);
       axios.get('https://api.foursquare.com/v2/venues/search?oauth_token=' +
       this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
       '&v=' + this.state.apiVersion +
@@ -140,6 +159,7 @@ const store = () => new Vuex.Store({
         // add 'isChecked' key to use in venueList
         venues.map((venue) => {
           venue.isChecked = false;
+          venue.showEditDialog = false;
           return venue;
         });
         commit({
@@ -157,11 +177,25 @@ const store = () => new Vuex.Store({
       });
     },
     [ACTION.SET_SEARCH_CATEGORY]({commit}, payload) {
-      // Set category IDs (join by comma)
-      // e.g. 'abcdef01234,cdefa98765'
+      // Set category IDs ()
       commit({
         type: MUTATION.SET_SEARCH_CATEGORY,
         data: payload.categoryId,
+      });
+    },
+    [ACTION.FETCH_SPECIFIC_VENUE_DETAIL]({commit}, payload) {
+      axios.get('https://api.foursquare.com/v2/venues/' +
+      payload.venueId +
+      '?oauth_token=' +
+      this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
+      '&v=' + this.state.apiVersion +
+      '&locale=' + this.$auth.$storage.getUniversal('locale', false))
+      .then((res) => {
+        console.log(res.data.response);
+        commit({
+          type: MUTATION.SET_SPECIFIC_VENUE_DETAIL,
+          data: res.data.response,
+        });
       });
     },
     [ACTION.UPDATE_MAP_HEIGHT]({commit}, payload) {
@@ -198,7 +232,13 @@ const store = () => new Vuex.Store({
       state.searchQuery = payload.data;
     },
     [MUTATION.SET_SEARCH_CATEGORY](state, payload) {
-      state.searchCategoryIds = payload.data;
+      state.searchCategory = payload.data;
+    },
+    [MUTATION.SET_SPECIFIC_VENUE_DETAIL](state, payload) {
+      state.specificVenueDetail = payload.data;
+    },
+    [MUTATION.SET_SPECIFIC_VENUE_DETAIL_FETCH_STATUS](state, payload) {
+      state.fetchedSpecificVenueDetail = payload.data;
     },
     [MUTATION.SET_MAP_HEIGHT](state, payload) {
       state.initMapHeight = payload.data;

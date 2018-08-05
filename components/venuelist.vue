@@ -41,8 +41,31 @@
                 :src="venue.categories[0].icon.prefix +
                 'bg_44' + venue.categories[0].icon.suffix">
             </v-list-tile-avatar>
-
-            <v-list-tile-content>
+            <v-list-tile-content
+              @click="editDialog(venue, index)">
+              <v-dialog
+                v-model="venue.showEditDialog"
+                width="500">
+                <v-card>
+                  <v-card-title>
+                    <div class="headline">Use Google's location service?</div>
+                  </v-card-title>
+                  <v-card-text>Let Google help apps determine location.
+                  This means sending anonymous location data to Google,
+                  even when no apps are running.</v-card-text>
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      class="green--text darken-1"
+                      flat
+                      @click="venue.showEditDialog = false">Disagree</v-btn>
+                    <v-btn
+                      class="green--text darken-1"
+                      flat
+                      @click="venue.showEditDialog = false">Agree</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
               <v-list-tile-title>
                 {{ venue.name }}
               </v-list-tile-title>
@@ -60,6 +83,7 @@
 </template>
 
 <script>
+import * as type from '../store/action-types';
 
 export default {
   data() {
@@ -85,6 +109,18 @@ export default {
     this.$nextTick(() => {
       this.toolbarHeight = this.$refs.toolbar.heights.desktop;
     });
+  },
+  methods: {
+    editDialog: function(venueObject, index) {
+      this.$store.dispatch(
+        type.FETCH_SPECIFIC_VENUE_DETAIL,
+        {venueId: venueObject.id},
+      )
+      .then(() => {
+        venueObject.showEditDialog
+          = !venueObject.showEditDialog;
+      });
+    },
   },
 };
 </script>
