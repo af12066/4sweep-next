@@ -86,20 +86,6 @@ export default {
       toolbarHeight: 0,
       allChecked: false,
       toggle_none: null,
-      editForm: {
-        'name': '',
-        'name:en': '',
-        'name:ja': '',
-        'phone': '',
-        'postalCode': '',
-        'address': '',
-        'crossStreet': '',
-        'city': '',
-        'state': '',
-        'twitter': '',
-        'facebook': '',
-        'instagram': '',
-      },
     };
   },
   computed: {
