@@ -47,7 +47,7 @@
               tile
             >
               <img
-                :src="venue.categories[0].icon !== undefined
+                :src="venue.categories.length > 0
                   ? `${venue.categories[0].icon.prefix}bg_44${venue.categories[0].icon.suffix}`
                 : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"
               >
@@ -62,9 +62,7 @@
                 {{ venue.name }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ venue.categories.map((category) => {
-                  return category.name;
-                }).join(', ') }}
+                {{ generateSubTitle(venue) }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -146,6 +144,15 @@ export default {
         venueObject.showEditDialog
           = !venueObject.showEditDialog;
       });
+    },
+    generateSubTitle: function(venueObject) {
+      if (venueObject.categories.length > 0) {
+        return venueObject.categories.map((category) => {
+          return category.name;
+        }).join(', ');
+      } else {
+        return 'Uncategorized';
+      }
     },
   },
 };
