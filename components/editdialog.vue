@@ -156,7 +156,7 @@
         <v-btn
           class="green--text darken-1"
           flat
-          @click="submitForm(venue, index)"
+          @click="submitForm(venue)"
         >Submit</v-btn>
       </v-card-actions>
     </v-card>
@@ -164,6 +164,8 @@
 </template>
 
 <script>
+import * as type from '../store/action-types';
+
 export default {
   props: {
     venue: {
@@ -186,6 +188,25 @@ export default {
         };
       },
     },
+  },
+  data() {
+    return {
+      // Each value is empty until updating input form.
+      editForm: {
+        'name': '',
+        'name:en': '',
+        'name:ja': '',
+        'phone': '',
+        'postalCode': '',
+        'address': '',
+        'crossStreet': '',
+        'city': '',
+        'state': '',
+        'twitter': '',
+        'facebook': '',
+        'instagram': '',
+      },
+    };
   },
   computed: {
     editVenueName: {
@@ -286,10 +307,15 @@ export default {
     },
   },
   methods: {
-    submitForm: function(venueObject, index) {
-      console.log(this.editForm);
-      venueObject.showEditDialog
-        = !venueObject.showEditDialog;
+    submitForm: function(venueObject) {
+      this.$store.dispatch(type.PROPOSE_EDIT, {
+        venueId: venueObject.id,
+        proposeValues: this.editForm,
+      })
+      .then(() => {
+        venueObject.showEditDialog
+          = !venueObject.showEditDialog;
+      });
     },
   },
 };

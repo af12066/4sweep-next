@@ -47,12 +47,13 @@
               tile
             >
               <img
-                :src="venue.categories[0].icon.prefix +
-                'bg_44' + venue.categories[0].icon.suffix"
+                :src="venue.categories[0].icon !== undefined
+                  ? `${venue.categories[0].icon.prefix}bg_44${venue.categories[0].icon.suffix}`
+                : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"
               >
             </v-list-tile-avatar>
             <v-list-tile-content
-              @click="editDialog(venue, index)"
+              @click="editDialog(venue)"
             >
               <EditDialog
                 :venue="venue"
@@ -70,6 +71,15 @@
         </template>
       </v-list>
     </div>
+    <v-snackbar
+      v-model="showProposeEditSnackbar"
+      :right="true"
+      :top="true"
+      :color="proposeEditSnackBarContent.color"
+      :timeout="5000"
+    >
+      {{ proposeEditSnackBarContent.text }}
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -86,11 +96,19 @@ export default {
       toolbarHeight: 0,
       allChecked: false,
       toggle_none: null,
+      showProposeEditSnackbar: false,
+      proposeEditSnackBarContent: {
+        text: '',
+        color: '',
+      },
     };
   },
   computed: {
     searchedVenues() {
       return this.$store.getters.searchedVenues;
+    },
+    proposeEditStatus() {
+      return this.$store.getters.proposeEditStatus;
     },
   },
   watch: {
@@ -99,6 +117,19 @@ export default {
         venue.isChecked = this.allChecked;
       });
     },
+    proposeEditStatus: {
+      handler: function(val) {
+        if (val.code === 200) {
+          this.proposeEditSnackBarContent.text = 'Your proposal is submitted!';
+          this.proposeEditSnackBarContent.color = 'success';
+        } else {
+          this.proposeEditSnackBarContent.text = 'An error has occured.';
+          this.proposeEditSnackBarContent.color = 'error';
+        }
+        this.showProposeEditSnackbar = true;
+      },
+      deep: true,
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -106,7 +137,7 @@ export default {
     });
   },
   methods: {
-    editDialog: function(venueObject, index) {
+    editDialog: function(venueObject) {
       this.$store.dispatch(
         type.FETCH_SPECIFIC_VENUE_DETAIL,
         {venueId: venueObject.id},
