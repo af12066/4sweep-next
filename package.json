@@ -1,8 +1,7 @@
 {
-  "name": "y",
+  "name": "4sweep-next",
   "version": "0.0.1",
   "description": "A next generation 4sweep",
-  "main": "index.js",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
