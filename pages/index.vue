@@ -23,8 +23,9 @@
       text-xs-center
     >
       <v-flex
-        xs6
-        offset-xs3
+        xs12
+        sm9
+        offset-sm3
       >
         <v-btn
           dark
