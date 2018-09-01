@@ -49,7 +49,7 @@
               <img
                 :src="venue.categories.length > 0
                   ? `${venue.categories[0].icon.prefix}bg_44${venue.categories[0].icon.suffix}`
-                : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"
+                : 'https://foursquare.com/img/categories_v2/none_bg_44.png'"
               >
             </v-list-tile-avatar>
             <v-list-tile-content
