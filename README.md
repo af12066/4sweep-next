@@ -11,6 +11,7 @@ $ ndenv install
 Set the following environment variable in `~/.bash_profile`, `~/.zshenv` or etc.
 
 - `FOURSQUARE_CLIENT_ID`: Your OAuth client ID (issues from <https://foursquare.com/developers/apps>). 
+- `FOURSWEEP_NEXT_REPOSITORY_URL`: 4sweep-next's repository URL (e.g. `https://github.com/af12066/4sweep-next`).
 
 ## Launch application
 
@@ -27,7 +28,7 @@ $ npm run build && npm run start  # production mode
 $ heroku login
 $ heroku container:login
 $ heroku create
-$ heroku container:push web --arg base_url=${YOUR_HEROKU_APP_URL},foursquare_client_id=${FOURSQUARE_CLIENT_ID}
+$ heroku container:push web --arg base_url=${YOUR_HEROKU_APP_URL},foursquare_client_id=${FOURSQUARE_CLIENT_ID},repository_url=${FOURSWEEP_NEXT_REPOSITORY_URL}
 $ heroku container:release web
 $ heroku open
 ```

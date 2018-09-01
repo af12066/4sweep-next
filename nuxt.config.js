@@ -11,6 +11,7 @@ module.exports = {
   env: {
     FOURSQUARE_CLIENT_ID: process.env.FOURSQUARE_CLIENT_ID,
     BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
+    REPOSITORY_URL: process.env.FOURSWEEP_NEXT_REPOSITORY_URL || 'https://github.com/af12066/4sweep-next',
   },
   build: {
     extend(config, ctx) {
