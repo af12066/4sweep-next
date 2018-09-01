@@ -1,11 +1,15 @@
 {
   "name": "4sweep-next",
   "version": "0.0.1",
+  "engines": {
+    "node": "10.9.0"
+  },
   "description": "A next generation 4sweep",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
+    "heroku-postbuild": "npm run build",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
