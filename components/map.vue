@@ -14,6 +14,13 @@
       :draggable="marker.draggable"
       @moveend="setMoveEndPositions"
     />
+    <l-marker
+      v-for="(venue, index) in icon"
+      :key="index"
+      :lat-lng="venue.position"
+      :icon="venue.icon"
+      @mouseover="showtooltip(venue.name)"
+    />
   </l-map>
 </template>
 
@@ -53,7 +60,21 @@ export default {
         draggable: true,
         visible: true,
       },
+      icon: [],
     };
+  },
+  computed: {
+    venueIcons() {
+      return this.$store.getters.searchedVenueLeafletMarkerInfo;
+    },
+  },
+  watch: {
+    venueIcons: {
+      handler: function(val) {
+        this.icon = val;
+      },
+      deep: true,
+    },
   },
   mounted() {
     this.$nextTick()

@@ -2,6 +2,7 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import {ACTION} from './action-types';
 import {MUTATION} from './mutation-types';
+import L from 'leaflet';
 
 const generateProposeEditQuery = (payload) => {
   let query = '';
@@ -12,6 +13,18 @@ const generateProposeEditQuery = (payload) => {
     }
   });
   return query;
+};
+
+const leafletVenueIcon = (iconURL) => {
+  return L.icon({
+    iconUrl: iconURL,
+    shadowUrl: '/shadowmarker.png',
+    iconSize: [30, 30],
+    shadowSize: [40, 50],
+    iconAnchor: [15, -6],
+    shadowAnchor: [20, 0],
+    popupAnchor: [-3, -76],
+  });
 };
 
 const store = () => new Vuex.Store({
@@ -49,6 +62,21 @@ const store = () => new Vuex.Store({
     },
     searchedVenues: (state) => {
       return state.searchedVenues;
+    },
+    searchedVenueLeafletMarkerInfo: (state) => {
+      return state.searchedVenues.map((venue) => {
+        let iconURL;
+        if (venue.categories.length > 0) {
+          iconURL = `${venue.categories[0].icon.prefix}bg_44${venue.categories[0].icon.suffix}`;
+        } else {
+          iconURL = 'https://foursquare.com/img/categories_v2/none_bg_44.png';
+        }
+        return {
+          name: venue.name,
+          position: [venue.location.lat, venue.location.lng],
+          icon: leafletVenueIcon(iconURL),
+        };
+      });
     },
     specificVenueDetailForEditableStyle: (state) => {
       if (Object.keys(state.specificVenueDetail).length === 0) {
