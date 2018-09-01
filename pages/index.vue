@@ -24,8 +24,8 @@
     >
       <v-flex
         xs12
-        sm9
-        offset-sm3
+        sm8
+        offset-sm2
       >
         <v-btn
           dark
