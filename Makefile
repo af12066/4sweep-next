@@ -1,10 +1,3 @@
-ifeq ($(NODE_ENV),production)
-	BASE_URL := https://4sweep-next.com
-else
-	BASE_URL := http://localhost:3000
-endif
-
-
 IMAGE := 4sweep-next
 TAG := latest
 

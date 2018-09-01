@@ -19,6 +19,30 @@ $ npm run dev  # development mode
 $ npm run build && npm run start  # production mode
 ```
 
+## Deployment
+
+### Heroku
+
+```bash
+$ heroku login
+$ heroku container:login
+$ heroku create
+$ heroku container:push web --arg base_url=${YOUR_HEROKU_APP_URL},foursquare_client_id=${FOURSQUARE_CLIENT_ID}
+$ heroku container:release web
+$ heroku open
+```
+
+For details, see https://nuxtjs.org/faq/heroku-deployment/ and https://devcenter.heroku.com/articles/container-registry-and-runtime
+
+### Build and push Docker image to a repository
+
+```bash
+$ export BASE_URL=${APP_URL}
+$ make build
+$ export REPO_URI=${DOCKER_REPOSITORY_URI}
+$ make push
+```
+
 ## License
 
 Copyright (C) 2018 Takuma Hashimoto
