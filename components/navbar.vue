@@ -254,7 +254,7 @@
                 >
                   <v-btn
                     :disabled="!valid"
-                    @click="submit"
+                    @click="searchByVenueId"
                   >Search</v-btn>
                 </v-flex>
               </v-layout>
@@ -347,6 +347,18 @@
               },
             );
           });
+        });
+      },
+      searchByVenueId() {
+        this.$store.dispatch(
+          type.SET_SEARCH_VENUE_ID,
+          {venueId: this.venueId},
+        )
+        .then(() => {
+          this.$store.dispatch(
+            type.SEARCH_VENUE_BY_ID,
+            {venueId: this.venueId},
+          );
         });
       },
     },

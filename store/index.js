@@ -43,6 +43,7 @@ const store = () => new Vuex.Store({
     },
     searchQuery: '',
     searchCategory: '',
+    searchVenueId: '',
     searchedVenues: [],
     specificVenueDetail: {},
     proposeEditStatus: {}, // {'code': 200, 'requestId': 'abcdef012345'}
@@ -211,12 +212,35 @@ const store = () => new Vuex.Store({
         });
       });
     },
+    [ACTION.SEARCH_VENUE_BY_ID]({commit}, payload) {
+      axios.get('https://api.foursquare.com/v2/venues/' +
+      payload.venueId +
+      '?oauth_token=' +
+      this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
+      '&v=' + this.state.apiVersion +
+      '&locale=' + this.$auth.$storage.getUniversal('locale', false))
+      .then((res) => {
+        const venue = res.data.response.venue;
+        venue.isChecked = false;
+        venue.showEditDialog = false;
+        commit({
+          type: MUTATION.SET_SEARCHED_SPECIFIC_VENUE,
+          data: venue,
+        });
+      });
+    },
     [ACTION.SET_SEARCH_QUERY]({commit}, payload) {
       // Set raw string (non-encoded query).
       // Encode process will execute at SEARCH_VENUES action.
       commit({
         type: MUTATION.SET_SEARCH_QUERY,
         data: payload.query,
+      });
+    },
+    [ACTION.SET_SEARCH_VENUE_ID]({commit}, payload) {
+      commit({
+        type: MUTATION.SET_SEARCH_VENUE_ID,
+        data: payload.venueId,
       });
     },
     [ACTION.SET_SEARCH_CATEGORY]({commit}, payload) {
@@ -289,8 +313,14 @@ const store = () => new Vuex.Store({
     [MUTATION.SET_SEARCHED_VENUES](state, payload) {
       state.searchedVenues = payload.data;
     },
+    [MUTATION.SET_SEARCHED_SPECIFIC_VENUE](state, payload) {
+      state.searchedVenues = [payload.data];
+    },
     [MUTATION.SET_SEARCH_QUERY](state, payload) {
       state.searchQuery = payload.data;
+    },
+    [MUTATION.SET_SEARCH_VENUE_ID](state, payload) {
+      state.searchVenueId = payload.data;
     },
     [MUTATION.SET_SEARCH_CATEGORY](state, payload) {
       state.searchCategory = payload.data;
