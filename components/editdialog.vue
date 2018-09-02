@@ -51,8 +51,7 @@
               />
             </v-flex>
             <v-flex
-              xs12
-              sm6
+              xs6
             >
               <v-text-field
                 v-model="editVenuePhone"
@@ -63,8 +62,7 @@
               />
             </v-flex>
             <v-flex
-              xs12
-              sm6
+              xs6
             >
               <v-text-field
                 v-model="editVenuePostalCode"
@@ -90,8 +88,7 @@
               />
             </v-flex>
             <v-flex
-              xs12
-              sm6
+              xs6
             >
               <v-text-field
                 v-model="editVenueCity"
@@ -99,8 +96,7 @@
               />
             </v-flex>
             <v-flex
-              xs12
-              sm6
+              xs6
             >
               <v-text-field
                 v-model="editVenueState"
