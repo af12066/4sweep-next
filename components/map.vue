@@ -2,7 +2,7 @@
   <l-map
     ref="map"
     :zoom="zoom"
-    :center="center"
+    :center="centerPosition"
     style="z-index: 1;"
   >
     <l-tile-layer
@@ -46,10 +46,6 @@ export default {
   data() {
     return {
       zoom: 13,
-      center: L.latLng(
-        this.$store.getters.currentMarkerPosition.lat,
-        this.$store.getters.currentMarkerPosition.lng
-      ),
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', // eslint-disable-next-line
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       marker: {
@@ -66,6 +62,12 @@ export default {
   computed: {
     venueIcons() {
       return this.$store.getters.searchedVenueLeafletMarkerInfo;
+    },
+    centerPosition() {
+      return L.latLng(
+        this.$store.getters.currentMarkerPosition.lat,
+        this.$store.getters.currentMarkerPosition.lng
+      );
     },
   },
   watch: {

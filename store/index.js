@@ -227,6 +227,21 @@ const store = () => new Vuex.Store({
           type: MUTATION.SET_SEARCHED_SPECIFIC_VENUE,
           data: venue,
         });
+        commit({
+          type: MUTATION.SET_CURRENT_POSITION,
+          data: {
+            lat: venue.location.lat,
+            lng: venue.location.lng,
+          },
+        });
+      })
+      .catch(() => {
+        commit({
+          type: MUTATION.UPDATE_PROPOSE_EDIT_STATUS,
+          data: {
+            code: 400,
+          },
+        });
       });
     },
     [ACTION.SET_SEARCH_QUERY]({commit}, payload) {
