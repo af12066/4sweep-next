@@ -267,101 +267,101 @@
 </template>
 
 <script>
-  import * as type from '../store/action-types';
+import * as type from '../store/action-types';
 
-  export default {
-    data() {
-      return {
-        tab: null,
-        valid: true,
-        query: '',
-        venueId: '',
-        dialog: false,
-        drawer: false,
-        tabItems: [
-          'Venue Search',
-          'Specific Venue',
-        ],
-        locales: [
-          'en', 'es', 'fr', 'de', 'it', 'ja',
-          'th', 'tr', 'ko', 'ru', 'pt', 'id',
-        ],
-        selectedLocale: '',
-        selectedCategories: [],
-        repositoryURL: process.env.REPOSITORY_URL,
-      };
+export default {
+  data() {
+    return {
+      tab: null,
+      valid: true,
+      query: '',
+      venueId: '',
+      dialog: false,
+      drawer: false,
+      tabItems: [
+        'Venue Search',
+        'Specific Venue',
+      ],
+      locales: [
+        'en', 'es', 'fr', 'de', 'it', 'ja',
+        'th', 'tr', 'ko', 'ru', 'pt', 'id',
+      ],
+      selectedLocale: '',
+      selectedCategories: [],
+      repositoryURL: process.env.REPOSITORY_URL,
+    };
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$auth.loggedIn;
     },
-    computed: {
-      isAuthenticated() {
-        return this.$auth.loggedIn;
-      },
-      allCategories() {
-        return this.$store.getters.allCategories;
-      },
+    allCategories() {
+      return this.$store.getters.allCategories;
     },
-    mounted() {
-      this.selectedLocale = this.$store.state.locale;
+  },
+  mounted() {
+    this.selectedLocale = this.$store.state.locale;
+  },
+  methods: {
+    authenticate() {
+      this.$auth.loginWith('social');
     },
-    methods: {
-      authenticate() {
-        this.$auth.loginWith('social');
-      },
-      logout() {
-        this.$auth.logout();
-      },
-      submit() {
-        console.log('submitted');
-      },
-      updateLocale() {
-        this.dialog = false;
-        this.$store.dispatch(
+    logout() {
+      this.$auth.logout();
+    },
+    submit() {
+      console.log('submitted');
+    },
+    updateLocale() {
+      this.dialog = false;
+      this.$store.dispatch(
           type.UPDATE_CURRENT_LOCALE,
           {locale: this.selectedLocale},
-        )
-        .then(() => {
-          this.$store.dispatch(
-            type.FETCH_ALL_CATEGORIES,
-          );
-        });
-      },
-      searchByVenueName() {
-        this.$store.dispatch(
-          type.SET_SEARCH_QUERY,
-          {query: this.query}
-        )
-        .then(() => {
-          const categoryId = this.selectedCategories.map((categoryKey) => {
-            return this.allCategories[categoryKey];
-          }).join(',');
-          this.$store.dispatch(
-            type.SET_SEARCH_CATEGORY,
-            {categoryId},
-          )
+      )
           .then(() => {
             this.$store.dispatch(
-              type.SEARCH_VENUES,
-              {
-                query: this.query,
-                categoryId,
-              },
+                type.FETCH_ALL_CATEGORIES,
             );
           });
-        });
-      },
-      searchByVenueId() {
-        this.$store.dispatch(
+    },
+    searchByVenueName() {
+      this.$store.dispatch(
+          type.SET_SEARCH_QUERY,
+          {query: this.query}
+      )
+          .then(() => {
+            const categoryId = this.selectedCategories.map((categoryKey) => {
+              return this.allCategories[categoryKey];
+            }).join(',');
+            this.$store.dispatch(
+                type.SET_SEARCH_CATEGORY,
+                {categoryId},
+            )
+                .then(() => {
+                  this.$store.dispatch(
+                      type.SEARCH_VENUES,
+                      {
+                        query: this.query,
+                        categoryId,
+                      },
+                  );
+                });
+          });
+    },
+    searchByVenueId() {
+      this.$store.dispatch(
           type.SET_SEARCH_VENUE_ID,
           {venueId: this.venueId},
-        )
-        .then(() => {
-          this.$store.dispatch(
-            type.SEARCH_VENUE_BY_ID,
-            {venueId: this.venueId},
-          );
-        });
-      },
+      )
+          .then(() => {
+            this.$store.dispatch(
+                type.SEARCH_VENUE_BY_ID,
+                {venueId: this.venueId},
+            );
+          });
     },
-  };
+  },
+};
 </script>
 <style scoped>
   img.avatar {

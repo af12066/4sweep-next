@@ -308,10 +308,10 @@ export default {
         venueId: venueObject.id,
         proposeValues: this.editForm,
       })
-      .then(() => {
-        venueObject.showEditDialog
+          .then(() => {
+            venueObject.showEditDialog
           = !venueObject.showEditDialog;
-      });
+          });
     },
   },
 };

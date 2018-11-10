@@ -39,21 +39,21 @@
 </template>
 
 <script>
-  export default {
-    head() {
-      return {
-        title: this.$store.state.defaultTitle,
-      };
+export default {
+  head() {
+    return {
+      title: this.$store.state.defaultTitle,
+    };
+  },
+  middleware: [
+    'auth',
+  ],
+  methods: {
+    authenticate() {
+      this.$auth.loginWith('social');
     },
-    middleware: [
-      'auth',
-    ],
-    methods: {
-      authenticate() {
-        this.$auth.loginWith('social');
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style scoped>

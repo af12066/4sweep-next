@@ -27,7 +27,7 @@ export default {
       title: `Dashboard | ${this.$store.state.defaultTitle}`,
     };
   },
-  components: {
+  components: { // eslint-disable-next-line
     Map,
     VenueList,
   },
@@ -36,10 +36,10 @@ export default {
   ],
   created() {
     this.$store.dispatch(type.SET_CURRENT_LOCALE)
-    .then(() => {
-      this.$store.dispatch(type.FETCH_SELF_USER_DATA);
-      this.$store.dispatch(type.FETCH_ALL_CATEGORIES);
-    });
+        .then(() => {
+          this.$store.dispatch(type.FETCH_SELF_USER_DATA);
+          this.$store.dispatch(type.FETCH_ALL_CATEGORIES);
+        });
   },
 };
 </script>

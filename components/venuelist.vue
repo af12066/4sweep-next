@@ -137,13 +137,13 @@ export default {
   methods: {
     editDialog: function(venueObject) {
       this.$store.dispatch(
-        type.FETCH_SPECIFIC_VENUE_DETAIL,
-        {venueId: venueObject.id},
+          type.FETCH_SPECIFIC_VENUE_DETAIL,
+          {venueId: venueObject.id},
       )
-      .then(() => {
-        venueObject.showEditDialog
+          .then(() => {
+            venueObject.showEditDialog
           = !venueObject.showEditDialog;
-      });
+          });
     },
     generateSubTitle: function(venueObject) {
       if (venueObject.categories.length > 0) {

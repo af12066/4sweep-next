@@ -92,8 +92,8 @@ export default {
     },
     centerPosition() {
       return L.latLng(
-        this.$store.getters.currentMarkerPosition.lat,
-        this.$store.getters.currentMarkerPosition.lng
+          this.$store.getters.currentMarkerPosition.lat,
+          this.$store.getters.currentMarkerPosition.lng
       );
     },
   },
@@ -107,9 +107,9 @@ export default {
   },
   mounted() {
     this.$nextTick()
-    .then(() => {
-      this.setMapHeight(this.$refs.map.$el.offsetHeight - 100);
-    });
+        .then(() => {
+          this.setMapHeight(this.$refs.map.$el.offsetHeight - 100);
+        });
   },
   methods: {
     setMoveEndPositions() {
@@ -117,12 +117,12 @@ export default {
         lat: this.marker.position.lat,
         lng: this.marker.position.lng,
       })
-      .then(() => {
-        this.$store.dispatch(type.SEARCH_VENUES, {
-          query: this.$store.state.searchQuery,
-          categoryId: this.$store.state.searchCategoryIds,
-        });
-      });
+          .then(() => {
+            this.$store.dispatch(type.SEARCH_VENUES, {
+              query: this.$store.state.searchQuery,
+              categoryId: this.$store.state.searchCategoryIds,
+            });
+          });
     },
     updateCurrentRadius(newRadius) {
       this.$store.state.searchRadius = newRadius;

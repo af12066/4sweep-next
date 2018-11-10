@@ -109,52 +109,52 @@ const store = () => new Vuex.Store({
       this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
       '&v=' + this.state.apiVersion +
       '&locale=' + this.$auth.$storage.getUniversal('locale', false))
-      .then((res) => {
-        commit({
-          type: MUTATION.SET_SELF_USER_DATA,
-          data: res.data.response.user,
-        });
-        commit({
-          type: MUTATION.SET_AVATAR_URL,
-          data: res.data.response.user.photo.prefix + '64x64' +
+          .then((res) => {
+            commit({
+              type: MUTATION.SET_SELF_USER_DATA,
+              data: res.data.response.user,
+            });
+            commit({
+              type: MUTATION.SET_AVATAR_URL,
+              data: res.data.response.user.photo.prefix + '64x64' +
             res.data.response.user.photo.suffix,
-        });
-      })
-      .catch(() => {
-        console.log('failed');
-      });
+            });
+          })
+          .catch(() => {
+            console.log('failed');
+          });
     },
     [ACTION.FETCH_ALL_CATEGORIES]({commit}) {
       axios.get('https://api.foursquare.com/v2/venues/categories?oauth_token=' +
       this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
       '&v=' + this.state.apiVersion +
       '&locale=' + this.$auth.$storage.getUniversal('locale', false))
-      .then((res) => {
-        const topcat = res.data.response.categories.map((cat) => {
-          return {[cat.name]: cat.id};
-        });
-        const secondcat = res.data.response.categories.map((cat) => {
-          return cat.categories.map((c) => {
-            return {[c.name]: c.id};
-          });
-        }).reduce((acc, val) => acc.concat(val), []);
-        const thirdcat = res.data.response.categories.map((cat) => {
-          return cat.categories.map((c) => {
-            return c.categories.map((c2) => {
-              return {[c2.name]: c2.id};
+          .then((res) => {
+            const topcat = res.data.response.categories.map((cat) => {
+              return {[cat.name]: cat.id};
             });
-          }).reduce((acc, val) => acc.concat(val), []);
-        }).reduce((acc, val) => acc.concat(val), []);
-        const allcat = topcat.concat(secondcat).concat(thirdcat);
-        const categories = {};
-        allcat.forEach((cat) => {
-          categories[Object.keys(cat)] = Object.values(cat)[0];
-        });
-        commit({
-          type: MUTATION.SET_ALL_CATEGORIES,
-          data: categories,
-        });
-      });
+            const secondcat = res.data.response.categories.map((cat) => {
+              return cat.categories.map((c) => {
+                return {[c.name]: c.id};
+              });
+            }).reduce((acc, val) => acc.concat(val), []);
+            const thirdcat = res.data.response.categories.map((cat) => {
+              return cat.categories.map((c) => {
+                return c.categories.map((c2) => {
+                  return {[c2.name]: c2.id};
+                });
+              }).reduce((acc, val) => acc.concat(val), []);
+            }).reduce((acc, val) => acc.concat(val), []);
+            const allcat = topcat.concat(secondcat).concat(thirdcat);
+            const categories = {};
+            allcat.forEach((cat) => {
+              categories[Object.keys(cat)] = Object.values(cat)[0];
+            });
+            commit({
+              type: MUTATION.SET_ALL_CATEGORIES,
+              data: categories,
+            });
+          });
     },
     [ACTION.SET_CURRENT_LOCALE]({commit}) {
       const storedLocale = this.$auth.$storage.getUniversal('locale', false);
@@ -199,19 +199,19 @@ const store = () => new Vuex.Store({
         ? payload.categoryId
         : '') +
       '&intent=browse')
-      .then((res) => {
-        const venues = res.data.response.venues;
-        // add 'isChecked' key to use in venueList
-        venues.map((venue) => {
-          venue.isChecked = false;
-          venue.showEditDialog = false;
-          return venue;
-        });
-        commit({
-          type: MUTATION.SET_SEARCHED_VENUES,
-          data: venues,
-        });
-      });
+          .then((res) => {
+            const venues = res.data.response.venues;
+            // add 'isChecked' key to use in venueList
+            venues.map((venue) => {
+              venue.isChecked = false;
+              venue.showEditDialog = false;
+              return venue;
+            });
+            commit({
+              type: MUTATION.SET_SEARCHED_VENUES,
+              data: venues,
+            });
+          });
     },
     [ACTION.SEARCH_VENUE_BY_ID]({commit}, payload) {
       axios.get('https://api.foursquare.com/v2/venues/' +
@@ -220,30 +220,30 @@ const store = () => new Vuex.Store({
       this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
       '&v=' + this.state.apiVersion +
       '&locale=' + this.$auth.$storage.getUniversal('locale', false))
-      .then((res) => {
-        const venue = res.data.response.venue;
-        venue.isChecked = false;
-        venue.showEditDialog = false;
-        commit({
-          type: MUTATION.SET_SEARCHED_SPECIFIC_VENUE,
-          data: venue,
-        });
-        commit({
-          type: MUTATION.SET_CURRENT_POSITION,
-          data: {
-            lat: venue.location.lat,
-            lng: venue.location.lng,
-          },
-        });
-      })
-      .catch(() => {
-        commit({
-          type: MUTATION.UPDATE_PROPOSE_EDIT_STATUS,
-          data: {
-            code: 400,
-          },
-        });
-      });
+          .then((res) => {
+            const venue = res.data.response.venue;
+            venue.isChecked = false;
+            venue.showEditDialog = false;
+            commit({
+              type: MUTATION.SET_SEARCHED_SPECIFIC_VENUE,
+              data: venue,
+            });
+            commit({
+              type: MUTATION.SET_CURRENT_POSITION,
+              data: {
+                lat: venue.location.lat,
+                lng: venue.location.lng,
+              },
+            });
+          })
+          .catch(() => {
+            commit({
+              type: MUTATION.UPDATE_PROPOSE_EDIT_STATUS,
+              data: {
+                code: 400,
+              },
+            });
+          });
     },
     [ACTION.SET_SEARCH_QUERY]({commit}, payload) {
       // Set raw string (non-encoded query).
@@ -273,12 +273,12 @@ const store = () => new Vuex.Store({
       this.$auth.$storage.getLocalStorage('_token.social').split(' ')[1] +
       '&v=' + this.state.apiVersion +
       '&locale=' + this.$auth.$storage.getUniversal('locale', false))
-      .then((res) => {
-        commit({
-          type: MUTATION.SET_SPECIFIC_VENUE_DETAIL,
-          data: res.data.response,
-        });
-      });
+          .then((res) => {
+            commit({
+              type: MUTATION.SET_SPECIFIC_VENUE_DETAIL,
+              data: res.data.response,
+            });
+          });
     },
     [ACTION.UPDATE_MAP_HEIGHT]({commit}, payload) {
       commit({
@@ -295,15 +295,15 @@ const store = () => new Vuex.Store({
       '&locale=' + this.$auth.$storage.getUniversal('locale', false) +
       proposeQuery
       )
-      .then((res) => {
-        commit({
-          type: MUTATION.UPDATE_PROPOSE_EDIT_STATUS,
-          data: {
-            code: res.status,
-            requestId: res.data.meta.requestId,
-          },
-        });
-      });
+          .then((res) => {
+            commit({
+              type: MUTATION.UPDATE_PROPOSE_EDIT_STATUS,
+              data: {
+                code: res.status,
+                requestId: res.data.meta.requestId,
+              },
+            });
+          });
     },
   },
   mutations: {
