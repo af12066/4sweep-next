@@ -15,8 +15,8 @@ module.exports = {
     REPOSITORY_URL: process.env.FOURSWEEP_NEXT_REPOSITORY_URL || 'https://github.com/af12066/4sweep-next',
   },
   build: {
-    extend(config, ctx) {
-      if (ctx.isDev && ctx.isClient) {
+    extend(config) {
+      if (process.server && process.browser) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,

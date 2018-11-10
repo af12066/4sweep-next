@@ -28,7 +28,7 @@
     "@nuxtjs/auth": "^4.5.3",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/vuetify": "^0.4.3",
-    "nuxt": "^1.4.2",
+    "nuxt": "^2.2.0",
     "nuxt-leaflet": "0.0.10",
     "vee-validate": "^2.1.2"
   },
