@@ -1,4 +1,4 @@
-FROM node:10.9-alpine
+FROM node:10.13-alpine
 MAINTAINER Takuma Hashimoto <takumaxd@gmail.com>
 
 ARG foursquare_client_id
