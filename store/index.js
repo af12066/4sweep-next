@@ -37,6 +37,7 @@ const store = () => new Vuex.Store({
     // eslint-disable-next-line
     avatarURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', // dummy image
     apiVersion: '20180705',
+    searchRadius: 1000,
     position: {
       lat: 35.681155,
       lng: 139.766893,
@@ -190,7 +191,7 @@ const store = () => new Vuex.Store({
       '&v=' + this.state.apiVersion +
       '&locale=' + this.$auth.$storage.getUniversal('locale', false) +
       '&ll=' + Object.values(this.state.position).join(',') +
-      '&radius=' + payload.radiusMeters +
+      '&radius=' + this.state.searchRadius +
       '&query=' + (payload.query !== undefined
         ? new URLSearchParams(payload.query).toString()
         : '') +

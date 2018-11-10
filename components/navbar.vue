@@ -341,7 +341,6 @@
             this.$store.dispatch(
               type.SEARCH_VENUES,
               {
-                radiusMeters: 100,
                 query: this.query,
                 categoryId,
               },

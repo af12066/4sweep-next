@@ -5,6 +5,30 @@
     :center="centerPosition"
     style="z-index: 1;"
   >
+    <v-toolbar
+      dense
+      floating
+      class="toolbar-on-map"
+    >
+      <v-menu :nudge-width="100">
+        <v-toolbar-title
+          slot="activator"
+        >
+          <span>{{ $store.state.searchRadius }} [m]</span>
+          <v-icon dark>arrow_drop_down</v-icon>
+        </v-toolbar-title>
+
+        <v-list>
+          <v-list-tile
+            v-for="radius in radiusMeters"
+            :key="radius"
+            @click="updateCurrentRadius(radius)"
+          >
+            <v-list-tile-title v-text="radius" />
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+    </v-toolbar>
     <l-tile-layer
       :url="url"
       :attribution="attribution"
@@ -24,11 +48,17 @@
   </l-map>
 </template>
 
+<style scoped>
+.toolbar-on-map {
+  z-index: 401;
+  margin-top: 12px !important;
+  margin-left: 60px;
+}
+</style>
+
+
 <script>
 import * as type from '../store/action-types';
-import L from 'leaflet';
-delete L.Icon.Default.prototype._getIconUrl;
-import {LMap, LTileLayer, LMarker} from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 L.Icon.Default.mergeOptions({
@@ -38,11 +68,6 @@ L.Icon.Default.mergeOptions({
 });
 
 export default {
-  components: {
-    LMap,
-    LTileLayer,
-    LMarker,
-  },
   data() {
     return {
       zoom: 13,
@@ -57,6 +82,8 @@ export default {
         visible: true,
       },
       icon: [],
+      radiusMeters: [100, 200, 500, 1000, 5000, 10000, 50000, 100000],
+      currentRadius: 1000,
     };
   },
   computed: {
@@ -92,11 +119,13 @@ export default {
       })
       .then(() => {
         this.$store.dispatch(type.SEARCH_VENUES, {
-          radiusMeters: 100,
           query: this.$store.state.searchQuery,
           categoryId: this.$store.state.searchCategoryIds,
         });
       });
+    },
+    updateCurrentRadius(newRadius) {
+      this.$store.state.searchRadius = newRadius;
     },
     setMapHeight(h) {
       this.$store.dispatch(type.UPDATE_MAP_HEIGHT, {

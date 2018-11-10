@@ -4,6 +4,7 @@ module.exports = {
     '@nuxtjs/vuetify',
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+    'nuxt-leaflet',
   ],
   plugins: [
     '~plugins/vee-validate.js',
