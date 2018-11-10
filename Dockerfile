@@ -11,7 +11,6 @@ ENV FOURSWEEP_NEXT_REPOSITORY_URL=$repository_url
 ENV HOST 0.0.0.0
 
 RUN addgroup -S app && adduser -h /var/app -S -G app app \
-  && echo "app ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
   && echo 'app:app' | chpasswd
 USER app
 
